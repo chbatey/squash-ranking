@@ -3,6 +3,7 @@ package com.lala.bambi.squash
 import com.lala.bambi.squash.domain.{Player, Result}
 import grizzled.slf4j.Logging
 import org.scalatra.{Ok, NotFound}
+import com.lala.bambi.squash.dao.ResultDao
 
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
@@ -13,6 +14,7 @@ import org.scalatra.json._
 class SquashRankingServlet extends SquashRankingStack with JacksonJsonSupport with Logging {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
+  val resultsDao : ResultDao = new ResultDao
 
   // This implies we will always respond with JSON
   before() {
@@ -31,6 +33,7 @@ class SquashRankingServlet extends SquashRankingStack with JacksonJsonSupport wi
     info("unparsed body " + request.body)
     val body = parsedBody.extract[Result]
     info("Body:: " + body)
+    resultsDao.storeResult(body)
   }
 
   get("/results/:id") {

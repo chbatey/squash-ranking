@@ -31,7 +31,8 @@ object SquashRankingBuild extends Build {
         "org.clapper" %% "grizzled-slf4j" % "0.6.9",
         "org.scalatra" %% "scalatra-json" % "2.2.1",
         "org.json4s" %% "json4s-jackson" % "3.2.4",
-        "org.scalatra" %% "scalatra-scalatest" % "2.2.1" % "test"
+        "org.scalatra" %% "scalatra-scalatest" % "2.2.1" % "test",
+        "com.novus" %% "salat" % "1.9.3"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) {
         base =>
