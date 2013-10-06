@@ -30,7 +30,8 @@ object SquashRankingBuild extends Build {
         "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar")),
         "org.clapper" %% "grizzled-slf4j" % "0.6.9",
         "org.scalatra" %% "scalatra-json" % "2.2.1",
-        "org.json4s" %% "json4s-jackson" % "3.2.4"
+        "org.json4s" %% "json4s-jackson" % "3.2.4",
+        "org.scalatra" %% "scalatra-scalatest" % "2.2.1" % "test"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) {
         base =>
