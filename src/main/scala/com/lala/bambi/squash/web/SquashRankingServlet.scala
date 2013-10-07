@@ -1,9 +1,11 @@
-package com.lala.bambi.squash
+package com.lala.bambi.squash.web
 
-import com.lala.bambi.squash.domain.{Player, Result}
+import com.lala.bambi.squash.domain.{Result}
 import grizzled.slf4j.Logging
-import org.scalatra.{Ok, NotFound}
-import com.lala.bambi.squash.dao.ResultDao
+import com.lala.bambi.squash.dao.{ResultRepo, ResultRepoMongoBacked}
+import com.escalatesoft.subcut.inject.{Injectable, BindingModule}
+import com.lala.bambi.squash.SquashRankingStack
+import org.scalatra.NotFound
 
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
@@ -11,10 +13,11 @@ import org.json4s.{DefaultFormats, Formats}
 // JSON handling support from Scalatra
 import org.scalatra.json._
 
-class SquashRankingServlet extends SquashRankingStack with JacksonJsonSupport with Logging {
+class SquashRankingServlet(implicit val bindingModule: BindingModule)
+  extends SquashRankingStack with JacksonJsonSupport with Logging with Injectable {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
-  val resultsDao : ResultDao = new ResultDao
+  val resultsDao : ResultRepo = inject[ResultRepo]
 
   // This implies we will always respond with JSON
   before() {
@@ -38,8 +41,11 @@ class SquashRankingServlet extends SquashRankingStack with JacksonJsonSupport wi
 
   get("/results/:id") {
     val id = params("id")
-    if (id == "1") NotFound("I dont know about 1!!")
-    else Ok(Result(new Player("bambi", 9), new Player("lala", 7)))
+    val result = resultsDao.retrieveResultId(id)
+    result match {
+      case Some(s) => s
+      case None => NotFound()
+    }
   }
 
 }

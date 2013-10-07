@@ -32,7 +32,8 @@ object SquashRankingBuild extends Build {
         "org.scalatra" %% "scalatra-json" % "2.2.1",
         "org.json4s" %% "json4s-jackson" % "3.2.4",
         "org.scalatra" %% "scalatra-scalatest" % "2.2.1" % "test",
-        "com.novus" %% "salat" % "1.9.3"
+        "com.novus" %% "salat" % "1.9.3",
+        "com.escalatesoft.subcut" % "subcut_2.10" % "2.0"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) {
         base =>

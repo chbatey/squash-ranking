@@ -1,5 +1,6 @@
 package com.lala.bambi.squash.domain
 
+
 /**
  * Created with IntelliJ IDEA.
  * User: chbatey
