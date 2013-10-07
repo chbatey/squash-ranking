@@ -14,25 +14,28 @@ import com.lala.bambi.squash.domain.{Player, Result}
 object StubbedProjectConfiguration extends NewBindingModule(module => {
   import module._
 
-  bind [ResultRepo] toSingle new ResultRepo {
-    var results: scala.collection.mutable.Map[String, Result] = scala.collection.mutable.Map()
-    results("0") = new Result(new Player("chris", 5), new Player("lloyd", 9))
+  bind [ResultRepo] toSingle new StubbedInMemoryResultRepo
 
-    def clearResults(): Unit = {}
-
-    def retrieveAllResult() : Map[String, Result] = {
-      results.toMap
-    }
-
-    def storeResult(result: Result) : String = {
-      val key = results.size.toString
-      results(key) = result
-      key
-    }
-
-    def retrieveResultId(id: String): Option[Result] = {
-      if (results.contains(id)) Some(results(id))
-      else None
-    }
-  }
 })
+
+class StubbedInMemoryResultRepo extends ResultRepo {
+  var results: scala.collection.mutable.Map[String, Result] = scala.collection.mutable.Map()
+  results("0") = new Result(new Player("chris", 5), new Player("lloyd", 9))
+
+  def clearResults(): Unit = {}
+
+  def retrieveAllResult() : Map[String, Result] = {
+    results.toMap
+  }
+
+  def storeResult(result: Result) : String = {
+    val key = results.size.toString
+    results(key) = result
+    key
+  }
+
+  def retrieveResultId(id: String): Option[Result] = {
+    if (results.contains(id)) Some(results(id))
+    else None
+  }
+}

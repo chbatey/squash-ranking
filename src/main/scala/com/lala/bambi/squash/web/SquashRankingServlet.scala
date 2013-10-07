@@ -33,10 +33,9 @@ class SquashRankingServlet(implicit val bindingModule: BindingModule)
     //val body = request.body
 
     //Now we just let Scalatra parse the json for us
-    info("unparsed body " + request.body)
-    val body = parsedBody.extract[Result]
-    info("Body:: " + body)
-    resultsDao.storeResult(body)
+    val result = parsedBody.extract[Result]
+    info("Request to create:: " + result)
+    resultsDao.storeResult(result)
   }
 
   get("/results/:id") {
@@ -47,5 +46,4 @@ class SquashRankingServlet(implicit val bindingModule: BindingModule)
       case None => NotFound()
     }
   }
-
 }

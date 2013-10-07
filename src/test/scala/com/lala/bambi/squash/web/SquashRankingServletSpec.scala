@@ -14,11 +14,11 @@ class SquashRankingServletSpec extends ScalatraSuite with FunSuite {
   
   val preCannedResult = new Result(new Player("chris", 5), new Player("lloyd", 9))
 
-  test("get result") {
+  test("getting a result that exists and one that doesn't exist") {
     get("/results/0", headers = Map("Accept"->"application/json")) {
       status should equal (200)
-      val result0 = parse(body).extract[Result]
-      result0 should equal(preCannedResult)
+      val resultFromEndpoint = parse(body).extract[Result]
+      resultFromEndpoint should equal(preCannedResult)
     }
 
     get("/results/1", headers = Map("Accept"->"application/json")) {

@@ -25,27 +25,25 @@ class ResultRepoMongoBacked extends ResultRepo with ResultCollection {
 
   def storeResult(result : Result) = {
     val dbo = grater[Result].asDBObject(result)
-    collection.insert(dbo)
+    resultsCollections.insert(dbo)
     dbo.get("_id").toString
   }
 
   def retrieveAllResult() = {
-    collection.map({
+    resultsCollections.map({
       row => (row.get("_id").toString, grater[Result].asObject(row))
     }).toMap
   }
 
   def clearResults() : Unit = {
-    collection.remove(DBObject())
+    resultsCollections.remove(DBObject())
   }
 
   def retrieveResultId(id: String): Option[Result] = {
-    val findOne = collection.findOne(MongoDBObject("_id"->new org.bson.types.ObjectId(id)))
+    val findOne = resultsCollections.findOne(MongoDBObject("_id"->new org.bson.types.ObjectId(id)))
     findOne match {
       case Some(s) => Some(grater[Result].asObject(findOne.get))
       case None => None
     }
-
-
   }
 }

@@ -17,11 +17,11 @@ class ResultRepoMongoBackedTest extends FunSpec with BeforeAndAfter with ShouldM
   var resultDao : ResultRepoMongoBacked = _
   before {
     resultDao = new ResultRepoMongoBacked
-    collection.remove(MongoDBObject())
+    resultsCollections.remove(MongoDBObject())
   }
 
   describe("Storing results in Mongo") {
-    it("should store a result in mongo and be retrieveable by getting all results") {
+    it("should store a result in mongo and be retrievable by getting all results") {
       val result = new Result(new Player("lala", 8), new Player("bambi", 9))
       val id = resultDao.storeResult(result)
 
@@ -56,11 +56,11 @@ class ResultRepoMongoBackedTest extends FunSpec with BeforeAndAfter with ShouldM
 
   describe("Removing all results in Mongo DB") {
     it("should remove everything in the results collections") {
-      collection.insert(MongoDBObject("something" -> "anything"))
-      collection.size should equal(1)
+      resultsCollections.insert(MongoDBObject("something" -> "anything"))
+      resultsCollections.size should equal(1)
 
       resultDao.clearResults()
-      collection.size should equal(0)
+      resultsCollections.size should equal(0)
     }
   }
 }
